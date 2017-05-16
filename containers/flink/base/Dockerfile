@@ -30,6 +30,7 @@ RUN apt-get -y upgrade && apt-get -y update && \
 RUN mkdir -p /opt && \
     cd /opt && \
     curl --get --url http://www.us.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz --output hadoop-${HADOOP_VERSION}.tar.gz && \
+    mkdir -p hadoop-${HADOOP_VERSION}/lib/native && \
     tar xvfz hadoop-${HADOOP_VERSION}.tar.gz -C hadoop-${HADOOP_VERSION}/lib/native && \
     ln -s hadoop-${HADOOP_VERSION} hadoop && \
     echo Hadoop ${HADOOP_VERSION} native libraries installed in /opt/hadoop/lib/native
