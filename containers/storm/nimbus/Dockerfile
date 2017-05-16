@@ -2,7 +2,7 @@
 #
 # VERSION   0.2
 
-FROM $BOONTADATA_DOCKER_REGISTRY/boontadata/stormbase:0.2
+FROM nrt17.azurecr.io/nrt17/stormbase:0.2
 
 MAINTAINER boontadata <contact@boontadata.io>
 

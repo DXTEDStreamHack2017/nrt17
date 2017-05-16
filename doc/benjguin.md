@@ -18,9 +18,14 @@ export NRT17_DOCKER_REGISTRY=$HOME/sdc1/nrt17
 docker login $NRT17_DOCKER_REGISTRY
 
 cd $NRT17_HOME/containers
-./buildimages.sh
+./buildimages.sh | tee ~/lastbuild.log
 
 docker-compose up -d
+
+
+docker images | grep nrt17
+docker images | grep nrt17 | awk '{print $3}' | xargs --no-run-if-empty docker rmi
+
 ```
 
 ## saved code
