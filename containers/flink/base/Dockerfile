@@ -2,7 +2,7 @@
 #
 # VERSION   0.1
 
-FROM java:openjdk-9-jdk
+FROM java:openjdk-8-jdk
 
 ENV SCALA_VERSION 2.11
 ENV SCALA_VERSION_LONG 2.11.7
