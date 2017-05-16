@@ -6,7 +6,7 @@
 FROM java:openjdk-9-jdk
 
 ENV HADOOP_VERSION 2.7.0
-ENV FLINK_VERSION 1.1.3
+ENV FLINK_VERSION 1.2.0
 ENV SCALA_VERSION 2.11
 ENV SCALA_VERSION_LONG 2.11.7
 ENV FLINK_ROOT_DIR /opt/flink
@@ -14,7 +14,7 @@ ENV FLINK_ROOT_DIR /opt/flink
 # Install Scala & SBT
 RUN apt-get -y upgrade && apt-get -y update && \
     apt-get -y install gnupg apt-transport-https rsync && \
-    wget -q http://www.scala-lang.org/files/archive/scala-${SCALA_VERSION_LONG}.deb && \
+    curl --get --url http://www.scala-lang.org/files/archive/scala-${SCALA_VERSION_LONG}.deb --output scala-${SCALA_VERSION_LONG}.deb && \
     dpkg -i scala-${SCALA_VERSION_LONG}.deb && \
     rm -f scala-${SCALA_VERSION_LONG}.deb && \
     echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list && \
@@ -29,16 +29,16 @@ RUN apt-get -y upgrade && apt-get -y update && \
 # is all we need.)
 RUN mkdir -p /opt && \
     cd /opt && \
-    curl http://www.us.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz | \
-        tar -zx hadoop-${HADOOP_VERSION}/lib/native && \
+    curl --get --url http://www.us.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz --output hadoop-${HADOOP_VERSION}.tar.gz \
+    tar -xvfz hadoop-${HADOOP_VERSION}.tar.gz -C hadoop-${HADOOP_VERSION}/lib/native && \
     ln -s hadoop-${HADOOP_VERSION} hadoop && \
     echo Hadoop ${HADOOP_VERSION} native libraries installed in /opt/hadoop/lib/native
 
 # Get Flink from US Apache mirror.
 RUN mkdir -p /opt && \
     cd /opt && \
-    curl http://www.us.apache.org/dist/flink/flink-${FLINK_VERSION}/flink-${FLINK_VERSION}-bin-hadoop27-scala_${SCALA_VERSION}.tgz | \
-        tar -zx && \
+    curl --get --url http://www.us.apache.org/dist/flink/flink-${FLINK_VERSION}/flink-${FLINK_VERSION}-bin-hadoop27-scala_${SCALA_VERSION}.tgz --output flink-${FLINK_VERSION}-bin-hadoop27-scala_${SCALA_VERSION}.tgz | \
+    tar -xvfz flink-${FLINK_VERSION}-bin-hadoop27-scala_${SCALA_VERSION}.tgz && \
     ln -s flink-${FLINK_VERSION} flink && \
     echo Flink ${FLINK_VERSION} installed in /opt
 
