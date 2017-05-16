@@ -4,6 +4,8 @@
 
 FROM java:openjdk-8-jdk
 
+MAINTAINER chgeuer <chgeuer@microsoft.com>
+
 ENV SCALA_VERSION 2.11
 ENV SCALA_VERSION_LONG 2.11.7
 ENV HADOOP_VERSION 2.7.0
