@@ -1,4 +1,4 @@
-# nrt17.azurecr.io/nrt17//flinkmaster
+# nrt17.azurecr.io/nrt17/flinkmaster
 #
 # VERSION   0.1
 

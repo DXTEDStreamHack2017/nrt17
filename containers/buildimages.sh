@@ -56,4 +56,4 @@ build_and_push $NRT17_HOME/containers/storm/master
 build_and_push $NRT17_HOME/containers/storm/worker
 build_and_push $NRT17_HOME/containers/storm/zookeeper
 
-docker images
+docker images | grep $NRT17_DOCKER_REGISTRY
