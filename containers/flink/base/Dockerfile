@@ -12,11 +12,13 @@ ENV SCALA_VERSION_LONG 2.11.7
 ENV FLINK_ROOT_DIR /opt/flink
 
 # Install Scala & SBT
-RUN wget -q http://www.scala-lang.org/files/archive/scala-${SCALA_VERSION_LONG}.deb && \
+RUN apt-get -y upgrade && apt-get -y update && \
+    apt-get -y install gnupg && \
+    wget -q http://www.scala-lang.org/files/archive/scala-${SCALA_VERSION_LONG}.deb && \
     dpkg -i scala-${SCALA_VERSION_LONG}.deb && \
     rm -f scala-${SCALA_VERSION_LONG}.deb && \
     echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list && \
-    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823&& && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2EE0EA64E40A89B84B2DF73499E82A75642AC823 && \
     apt-get update && \
     apt-get install sbt && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
