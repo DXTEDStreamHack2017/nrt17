@@ -40,10 +40,10 @@ RUN apt-get -y upgrade && apt-get -y update && \
     echo                                                           && \
     cd /opt && \
     curl --get --url http://www.us.apache.org/dist/flink/flink-${FLINK_VERSION}/flink-${FLINK_VERSION}-bin-hadoop${HADOOP_VERSION_SHORT}-scala_${SCALA_VERSION}.tgz --output flink.tgz && \
-    tar xvfz flink.tgz -C /opt/flink-${FLINK_VERSION} && \
+    tar xvfz flink.tgz -C /opt && \
     rm flink.tgz && \
     ln -s /opt/flink-${FLINK_VERSION} ${FLINK_ROOT_DIR} && \
-    echo Flink ${FLINK_VERSION} installed in /opt
+    echo Flink ${FLINK_VERSION} installed in ${FLINK_ROOT_DIR}
 
 ADD log4j.properties logback.xml ${FLINK_ROOT_DIR}/conf/
 ADD start-common.sh start-worker.sh start-master.sh ${FLINK_ROOT_DIR}/bin/
