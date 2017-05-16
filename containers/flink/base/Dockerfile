@@ -4,10 +4,11 @@
 
 FROM java:openjdk-9-jdk
 
-ENV HADOOP_VERSION 2.7.0
-ENV FLINK_VERSION 1.2.0
 ENV SCALA_VERSION 2.11
 ENV SCALA_VERSION_LONG 2.11.7
+ENV HADOOP_VERSION 2.7.0
+ENV HADOOP_VERSION_SHORT 27
+ENV FLINK_VERSION 1.2.0
 ENV FLINK_ROOT_DIR /opt/flink
 
 RUN apt-get -y upgrade && apt-get -y update && \
@@ -27,20 +28,20 @@ RUN apt-get -y upgrade && apt-get -y update && \
     echo                                                           && \
     mkdir -p /opt && \
     cd /opt && \
-    curl --get --url http://www.us.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz --output hadoop-${HADOOP_VERSION}.tar.gz && \
-    mkdir -p hadoop-${HADOOP_VERSION}/lib/native && \
-    tar xvfz hadoop-${HADOOP_VERSION}.tar.gz -C hadoop-${HADOOP_VERSION}/lib/native && \
-    rm hadoop-${HADOOP_VERSION}/lib/native && \
+    curl --get --url http://www.us.apache.org/dist/hadoop/common/hadoop-${HADOOP_VERSION}/hadoop-${HADOOP_VERSION}.tar.gz --output hadoop.tgz && \
+    mkdir -p hadoop-${HADOOP_VERSION} && \
+    tar xvfz hadoop.tgz -C hadoop-${HADOOP_VERSION} && \
+    rm hadoop.tgz && \
     ln -s hadoop-${HADOOP_VERSION} hadoop && \
-    echo Hadoop ${HADOOP_VERSION} native libraries installed in /opt/hadoop/lib/native && \
+    echo Hadoop ${HADOOP_VERSION} native libraries installed in /opt/hadoop && \
     echo                                                           && \
     echo                                                           && \
     echo                                                           && \
     echo                                                           && \
     cd /opt && \
-    curl --get --url http://www.us.apache.org/dist/flink/flink-${FLINK_VERSION}/flink-${FLINK_VERSION}-bin-hadoop27-scala_${SCALA_VERSION}.tgz --output flink-${FLINK_VERSION}-bin-hadoop27-scala_${SCALA_VERSION}.tgz && \
-    tar xvfz flink-${FLINK_VERSION}-bin-hadoop27-scala_${SCALA_VERSION}.tgz -C ${FLINK_ROOT_DIR} && \
-    rm flink-${FLINK_VERSION}-bin-hadoop27-scala_${SCALA_VERSION}.tgz && \
+    curl --get --url http://www.us.apache.org/dist/flink/flink-${FLINK_VERSION}/flink-${FLINK_VERSION}-bin-hadoop${HADOOP_VERSION_SHORT}-scala_${SCALA_VERSION}.tgz --output flink.tgz && \
+    tar xvfz flink.tgz -C ${FLINK_ROOT_DIR} && \
+    rm flink.tgz && \
     ln -s flink-${FLINK_VERSION} flink && \
     echo Flink ${FLINK_VERSION} installed in /opt
 
