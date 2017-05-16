@@ -1,4 +1,4 @@
-# $BOONTADATA_DOCKER_REGISTRY/boontadata/stormbase
+# nrt17.azurecr.io/nrt17/stormbase
 #
 # VERSION   0.2
 

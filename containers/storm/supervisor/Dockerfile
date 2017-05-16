@@ -1,4 +1,4 @@
-# $BOONTADATA_DOCKER_REGISTRY/boontadata/stormworker
+# nrt17.azurecr.io/nrt17/stormsupervisor
 #
 # VERSION   0.2
 
