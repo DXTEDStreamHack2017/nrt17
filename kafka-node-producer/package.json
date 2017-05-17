@@ -1,0 +1,11 @@
+{
+  "name": "kafka-node-producer",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node producer.js"
+  },
+  "dependencies": {
+    "kafka-node": ">=1.6.2"
+  }
+}
