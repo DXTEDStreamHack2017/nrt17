@@ -1,5 +1,25 @@
 # Benjamin's log, commands I used and so on
 
+## URLs, endpoints, ...
+
+- [Flink Web UI](http://nrt17vm.westus.cloudapp.azure.com:34010)
+
+### Kafka and Zookeeper endpoints
+
+- kafka node 1 port 9092 is available thru nrt17vm.westus.cloudapp.azure.com:34001
+- kafka node 2 port 9092 is available thru nrt17vm.westus.cloudapp.azure.com:34002
+- kafka node 3 port 9092 is available thru nrt17vm.westus.cloudapp.azure.com:34003
+- zookeeper node 1 port 2181 is available thru nrt17vm.westus.cloudapp.azure.com:34050
+
+## portal az scripting
+
+```
+az network nsg rule create --resource-group NRT17 --nsg-name nrt17vm-nsg -n kafka1 --priority 1030 --destination-port-range 34001
+az network nsg rule create --resource-group NRT17 --nsg-name nrt17vm-nsg -n kafka2 --priority 1040 --destination-port-range 34002
+az network nsg rule create --resource-group NRT17 --nsg-name nrt17vm-nsg -n kafka3 --priority 1050 --destination-port-range 34003
+```
+
+
 ## on my Windows laptop in Bash susbsystem
 
 My Azure Linux VM is u2.3-4.xyz

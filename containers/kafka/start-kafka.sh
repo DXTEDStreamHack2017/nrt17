@@ -39,6 +39,8 @@ do
   fi
 done
 
+
+
 if [[ -n "$CUSTOM_INIT_SCRIPT" ]] ; then
   eval $CUSTOM_INIT_SCRIPT
 fi
@@ -56,6 +58,8 @@ term_handler() {
   echo 'Kafka stopped.'
   exit
 }
+
+echo "advertised.listeners=PLAINTEXT://nrt17vm.westus.cloudapp.azure.com:$KAFKA_ADVERTISED_PORT" >> $KAFKA_HOME/config/server.properties
 
 
 # Capture kill requests to stop properly

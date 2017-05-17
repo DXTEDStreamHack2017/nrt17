@@ -1,7 +1,5 @@
-package io.boontadata.spark.job1
+package com.benjguin.nrt17.spark.job1
 
-import com.datastax.spark.connector.streaming._
-import com.datastax.spark.connector.SomeColumns
 import kafka.serializer.StringDecoder
 import org.apache.spark.streaming._
 import org.apache.spark.streaming.kafka._
