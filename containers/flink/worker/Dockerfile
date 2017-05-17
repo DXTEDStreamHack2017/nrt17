@@ -2,8 +2,6 @@
 #
 # VERSION   0.1
 
-FROM $BOONTADATA_DOCKER_REGISTRY/boontadata/flinkbase:0.1
-
-MAINTAINER boontadata <contact@boontadata.io>
+FROM nrt17.azurecr.io/nrt17/flinkbase:0.1
 
 CMD ["/opt/flink/bin/start-worker.sh"]
