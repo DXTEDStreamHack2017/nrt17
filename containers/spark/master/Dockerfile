@@ -1,18 +1,21 @@
 # nrt17.azurecr.io/nrt17/sparkmaster
 #
-# VERSION   0.2
+# VERSION   0.3
 
-FROM nrt17.azurecr.io/nrt17/sparkbase:0.1
+FROM nrt17.azurecr.io/nrt17/sparkbase:0.3
 
 WORKDIR /workdir
 
-ADD code/*.* ./
+ADD code/*.* code/
+ADD code/project/* code/project/
 
-
-
-
-ADD code/target/scala-2.11/boontadata-spark-job1-assembly-0.1.jar ./
 ADD code/*.sh ./
 RUN chmod a+x *.sh
+
+WORKDIR /workdir/code
+RUN ls -alsR
+RUN sbt clean assembly
+
+WORKDIR /workdir
 
 CMD [ "/bin/bash" ]

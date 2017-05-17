@@ -6,6 +6,8 @@ My Azure Linux VM is u2.3-4.xyz
 
 ```
 rsync -ave ssh containers u2.3-4.xyz:~/sdc1/nrt17/
+
+ssh nrt17@nrt17vm.westus.cloudapp.azure.com
 ```
 
 
@@ -13,7 +15,8 @@ rsync -ave ssh containers u2.3-4.xyz:~/sdc1/nrt17/
 
 ```
 export NRT17_HOME=$HOME/sdc1/nrt17
-export NRT17_DOCKER_REGISTRY=$HOME/sdc1/nrt17
+export NRT17_DOCKER_REGISTRY=nrt17.azurecr.io
+export HOSTIP=`hostname -i`
 
 docker login $NRT17_DOCKER_REGISTRY
 
@@ -27,6 +30,34 @@ docker images | grep nrt17
 docker images | grep nrt17 | awk '{print $3}' | xargs --no-run-if-empty docker rmi
 
 ```
+
+## on nrt17vm
+
+```
+sudo apt-get install     apt-transport-https     ca-certificates     curl     software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo apt-key fingerprint 0EBFCD88
+sudo add-apt-repository    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) \
+  stable"
+sudo apt-get update
+apt-cache madison docker-ce
+sudo apt-get install docker-ce=17.03.1~ce-0~ubuntu-xenial
+sudo usermod -aG docker $USER
+sudo systemctl enable docker
+sudo chkconfig docker on
+
+sudo apt install docker-compose
+
+```
+
+in .bashrc:
+```
+export NRT17_HOME=$HOME/sdc1/nrt17
+export NRT17_DOCKER_REGISTRY=nrt17.azurecr.io
+export HOSTIP=`hostname -i`
+```
+
 
 ## saved code
 

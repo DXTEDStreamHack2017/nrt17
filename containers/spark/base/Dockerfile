@@ -1,13 +1,11 @@
 # nrt17.azurecr.io/nrt17/sparkbase
 #
-# VERSION   0.2
+# VERSION   0.3
 
 FROM gettyimages/spark:2.0.2-hadoop-2.7
 
 RUN apt-get update && \
   apt-get -y upgrade && \
-  apt-get install -y maven && \
-  apt-get install -y scala && \
   apt-get install -y curl && \
   apt-get install -y apt-transport-https && \
   echo "deb https://dl.bintray.com/sbt/debian /" | tee -a /etc/apt/sources.list.d/sbt.list && \

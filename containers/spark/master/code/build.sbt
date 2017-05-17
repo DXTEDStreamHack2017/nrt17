@@ -1,4 +1,4 @@
-name := "boontadata-spark-job1"
+name := "nrt17-spark-job1"
 version := "0.1"
 scalaVersion := "2.11.7"
 
