@@ -1,8 +1,8 @@
 # nrt17.azurecr.io/nrt17/sparkbase
 #
-# VERSION   0.3
+# VERSION   0.4
 
-FROM gettyimages/spark:2.0.2-hadoop-2.7
+FROM gettyimages/spark:2.1.0-hadoop-2.7
 
 RUN apt-get update && \
   apt-get -y upgrade && \

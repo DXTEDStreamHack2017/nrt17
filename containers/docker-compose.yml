@@ -53,7 +53,7 @@ services:
       - kafka2
     environment:
       KAFKA_ADVERTISED_HOST_NAME: $HOSTIP
-      KAFKA_CREATE_TOPICS: "topic.input:16:3,topic.output:16:3"
+      KAFKA_CREATE_TOPICS: "inputtopic:16:3,outputtopic:16:3,debugtopic:16:3"
       KAFKA_ZOOKEEPER_CONNECT: zk1:2181
       KAFKA_BROKER_ID: 3      
     volumes:

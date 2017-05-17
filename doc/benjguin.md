@@ -49,6 +49,8 @@ docker-compose up -d
 docker images | grep nrt17
 docker images | grep nrt17 | awk '{print $3}' | xargs --no-run-if-empty docker rmi
 
+./startdevjvm.sh $NRT17_HOME/containers/spark/master/code
+
 ```
 
 ## on nrt17vm
@@ -78,6 +80,11 @@ export NRT17_DOCKER_REGISTRY=nrt17.azurecr.io
 export HOSTIP=`hostname -i`
 ```
 
+## on ks1 container
+
+```
+$KAFKA_HOME/bin/kafka-console-consumer.sh --zookeeper zk1:2181 --topic topic.output --from-beginning
+```
 
 ## saved code
 

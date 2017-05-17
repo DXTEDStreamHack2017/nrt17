@@ -43,6 +43,7 @@ build_and_push()
     fi
 }
 
+build_and_push $NRT17_HOME/containers/devjvm
 build_and_push $NRT17_HOME/containers/zookeeper
 build_and_push $NRT17_HOME/containers/kafka
 build_and_push $NRT17_HOME/containers/flink/base
