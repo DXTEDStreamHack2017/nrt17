@@ -8,6 +8,8 @@ import org.apache.log4j.Logger
 import org.apache.log4j.Level
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._ 
+import com.benjguin.nrt17.sparkjob1.proto.messages.TrackingPacket
+import org.apache.spark.sql.Encoders
 
 object Main {
 
@@ -45,47 +47,39 @@ class SparkJob extends Serializable {
 
     logger.info("Execution started with following configuration")
 
+    //implicit statisticsRecordEncoder = Encoders.product[StatisticsRecord]
+    val protobufDeserializerUDF = udf { bytes: Array[Byte] => TrackingPacket.parseFrom(bytes) }
+
     import sparkSession.implicits._
-    val lines = sparkSession.readStream
+    val decodedRows = sparkSession.readStream
       .format("kafka")
       .option("subscribe", "inputtopic")
       .option("kafka.bootstrap.servers", "ks1:9092,ks2:9092,ks3:9092")
-      .option("startingOffsets", "latest")
+      .option("startingOffsets", "earliest")
       .load()
-      .selectExpr("CAST(value AS STRING)" )
-      .as[String]
+      .select(protobufDeserializerUDF($"value") as "decoded_value")
 
-    val df =
-      lines.map { line =>
-        val columns = line.split("\\|") 
-        (columns(0), columns(1), columns(2), columns(3), columns(4).toInt, columns(5))
-      }.toDF(cols: _*)
+    /* Notes on previous code block: 
+    ---------------------------------
+
+    .option("startingOffsets", "earliest") 
+    can be replaced by 
+    .option("startingOffsets", "latest") 
+    for instance. cf https://databricks.com/blog/2017/04/26/processing-data-in-apache-kafka-with-structured-streaming-in-apache-spark-2-2.html
     
-      // Deduplicate 
-      //  val df = dfi.dropDuplicates()
+    sources of inspiration: 
+    - http://stackoverflow.com/questions/43934180/how-to-deserialize-records-from-kafka-using-structured-streaming-in-java
+    - https://databricks.com/blog/2017/04/26/processing-data-in-apache-kafka-with-structured-streaming-in-apache-spark-2-2.html
+    */
 
-    df.printSchema()
 
-    val agg = df
-                .groupBy($"device_id",$"category", $"timestamp".as("window_time"))
-                .agg(sum($"measure1").as("m1_sum_downstream"),sum($"measure2").as("m2_sum_downstream"))
-
-    // Run your business logic here
-    val ds = agg
-              .select($"device_id", $"category", $"window_time", $"m1_sum_downstream".cast("BigInt"), $"m2_sum_downstream".cast("Double")).as[Commons.UserEvent]
-
-    // This Foreach sink writer writes the output to cassandra.
-    import org.apache.spark.sql.ForeachWriter
-    val writer = new ForeachWriter[Commons.UserEvent] {
-      override def open(partitionId: Long, version: Long) = true
-      override def process(value: Commons.UserEvent) = {
-        //processRow(value)
-      }
-      override def close(errorOrNull: Throwable) = {}
-    }
-
-    val query =
-      ds.writeStream.queryName("aggregateStructuredStream").outputMode("complete").foreach(writer).start
+    val query = decodedRows
+      .writeStream
+      .format("kafka")
+      .option("kafka.bootstrap.servers", "ks1:9092,ks2:9092,ks3:9092")
+      .option("topic", "debugtopic")
+      .option("checkpointLocation", "/somehdfsfolder")
+      .start()
 
     query.awaitTermination()
     sparkSession.stop()

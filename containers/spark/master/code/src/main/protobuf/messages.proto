@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package sparkstructuredstreamingdemo;
+
+option java_package = "com.benjguin.nrt17.sparkjob1.proto";
+option java_outer_classname = "SparkStructuredStreamingProtos";
+
+message TrackingPacket {
+    int64 ccn = 1;
+    int32 tripid = 2;
+    int64 millisecondsSinceEpoch = 3;
+    double lat = 4;
+    double lon = 5;
+}
+
+message TripAggregation {
+    int64 ccn = 1;
+    int32 tripid = 2;
+    repeated Point data = 3;
+}
+
+message Point {
+    int64 millisecondsSinceEpoch = 1;
+    double lat = 2;
+    double lon = 3;
+    Calculated properties = 4;
+}
+
+message Calculated {
+    double timeDifferenceToPreviousPoint = 1;
+    double distanceInMetersToPreviousPoint = 2;
+}
