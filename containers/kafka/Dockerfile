@@ -1,6 +1,6 @@
 # nrt17.azurecr.io/nrt17/kafka
 #
-# VERSION   0.1
+# VERSION   0.2
 
 FROM anapsix/alpine-java
 
@@ -16,7 +16,7 @@ ADD create-topics.sh  /usr/bin/create-topics.sh
 
 RUN apk add --update unzip wget curl docker jq coreutils && \
 	chmod a+x /tmp/download-kafka.sh && \
-	/tmp/download-kafka.sh && \
+	/bin/sh /tmp/download-kafka.sh && \
 	tar xfz /tmp/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz -C /opt && \
 	rm /tmp/kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz && \
 	chmod a+x /usr/bin/*.sh

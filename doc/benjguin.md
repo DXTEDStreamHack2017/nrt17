@@ -17,6 +17,11 @@
 az network nsg rule create --resource-group NRT17 --nsg-name nrt17vm-nsg -n kafka1 --priority 1030 --destination-port-range 34001
 az network nsg rule create --resource-group NRT17 --nsg-name nrt17vm-nsg -n kafka2 --priority 1040 --destination-port-range 34002
 az network nsg rule create --resource-group NRT17 --nsg-name nrt17vm-nsg -n kafka3 --priority 1050 --destination-port-range 34003
+
+az network nsg rule create --resource-group m_benjguinu --nsg-name benjguinu1605a -n zookeeper1 --priority 1020 --destination-port-range 34050
+az network nsg rule create --resource-group m_benjguinu --nsg-name benjguinu1605a -n kafka1 --priority 1030 --destination-port-range 34001
+az network nsg rule create --resource-group m_benjguinu --nsg-name benjguinu1605a -n kafka2 --priority 1040 --destination-port-range 34002
+az network nsg rule create --resource-group m_benjguinu --nsg-name benjguinu1605a -n kafka3 --priority 1050 --destination-port-range 34003
 ```
 
 
@@ -83,7 +88,7 @@ export HOSTIP=`hostname -i`
 ## on ks1 container
 
 ```
-$KAFKA_HOME/bin/kafka-console-consumer.sh --zookeeper zk1:2181 --topic topic.output --from-beginning
+$KAFKA_HOME/bin/kafka-console-consumer.sh --zookeeper zk1:2181 --topic debugtopic --from-beginning
 ```
 
 ## saved code

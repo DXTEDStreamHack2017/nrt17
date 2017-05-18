@@ -9,7 +9,7 @@ services:
     networks:
       - nrt17net
   kafka1:
-    image: nrt17.azurecr.io/nrt17/kafka:0.1
+    image: nrt17.azurecr.io/nrt17/kafka:0.2
     container_name: ks1
     hostname: ks1
     ports:
@@ -25,7 +25,7 @@ services:
     networks:
       - nrt17net
   kafka2:
-    image: nrt17.azurecr.io/nrt17/kafka:0.1
+    image: nrt17.azurecr.io/nrt17/kafka:0.2
     container_name: ks2
     hostname: ks2
     ports:
@@ -42,7 +42,7 @@ services:
     networks:
       - nrt17net
   kafka3:
-    image: nrt17.azurecr.io/nrt17/kafka:0.1
+    image: nrt17.azurecr.io/nrt17/kafka:0.2
     container_name: ks3
     hostname: ks3
     ports:
