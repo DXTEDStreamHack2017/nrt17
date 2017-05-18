@@ -6,7 +6,6 @@ import java.text.{DateFormat, SimpleDateFormat}
 import collection.JavaConversions._
 import org.apache.log4j.Logger
 import org.apache.log4j.Level
-import com.datastax.spark.connector.cql.CassandraConnector
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._ 
 
@@ -38,35 +37,19 @@ class SparkJob extends Serializable {
   logger.setLevel(Level.INFO)
   val sparkSession =
     SparkSession.builder
-      .master("local[2]")
-      .appName("kafka2Spark2Cassandra")
-      .config("spark.cassandra.connection.host", "localhost")
+      .master("sparkm1")
+      .appName("nrt17sparkjob1")
       .getOrCreate()
-
-  val connector = CassandraConnector.apply(sparkSession.sparkContext.getConf)
-
-  // Create keyspace and tables here, NOT in prod
-  connector.withSessionDo { session =>
-    Statements.createKeySpaceAndTable(session, true)
-  }
-
-  private def processRow(value: Commons.UserEvent) = {
-    connector.withSessionDo { session =>
-      session.execute(Statements.cql(value.device_id, value.category, value.window_time, value.m1_sum_downstream, value.m2_sum_downstream))
-    }
-  }
-
+  
   def runJob() = {
 
     logger.info("Execution started with following configuration")
 
-    val cols = List("messageId","device_id","timestamp","category","measure1","measure2")
-
     import sparkSession.implicits._
     val lines = sparkSession.readStream
       .format("kafka")
-      .option("subscribe", "sampletopic")
-      .option("kafka.bootstrap.servers", "localhost:9092")
+      .option("subscribe", "inputtopic")
+      .option("kafka.bootstrap.servers", "ks1:9092,ks2:9092,ks3:9092")
       .option("startingOffsets", "latest")
       .load()
       .selectExpr("CAST(value AS STRING)" )
@@ -75,7 +58,7 @@ class SparkJob extends Serializable {
     val df =
       lines.map { line =>
         val columns = line.split("\\|") 
-        (columns(0), columns(1), Commons.getTimeStamp(columns(2)), columns(3), columns(4).toInt, columns(5))
+        (columns(0), columns(1), columns(2), columns(3), columns(4).toInt, columns(5))
       }.toDF(cols: _*)
     
       // Deduplicate 
@@ -96,7 +79,7 @@ class SparkJob extends Serializable {
     val writer = new ForeachWriter[Commons.UserEvent] {
       override def open(partitionId: Long, version: Long) = true
       override def process(value: Commons.UserEvent) = {
-        processRow(value)
+        //processRow(value)
       }
       override def close(errorOrNull: Throwable) = {}
     }

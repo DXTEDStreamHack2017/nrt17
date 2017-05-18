@@ -4,7 +4,7 @@ hdfs dfs -rm /clustervolume/*
 hdfs dfs -copyFromLocal boontadata-spark-job1-assembly-0.1.jar /clustervolume
 
 spark-submit \
-    --class io.boontadata.spark.job1.DirectKafkaAggregateEvents \
+    --class com.benjguin.nrt17.sparkjob1.Main \
     --deploy-mode cluster \
     --master spark://sparkm1:6066 \
     /clustervolume/boontadata-spark-job1-assembly-0.1.jar \
