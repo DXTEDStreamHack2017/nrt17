@@ -1,5 +1,30 @@
 # Benjamin's log, commands I used and so on
 
+## URLs, endpoints, ...
+
+- [Flink Web UI](http://nrt17vm.westus.cloudapp.azure.com:34010)
+
+### Kafka and Zookeeper endpoints
+
+- kafka node 1 port 9092 is available thru nrt17vm.westus.cloudapp.azure.com:34001
+- kafka node 2 port 9092 is available thru nrt17vm.westus.cloudapp.azure.com:34002
+- kafka node 3 port 9092 is available thru nrt17vm.westus.cloudapp.azure.com:34003
+- zookeeper node 1 port 2181 is available thru nrt17vm.westus.cloudapp.azure.com:34050
+
+## portal az scripting
+
+```
+az network nsg rule create --resource-group NRT17 --nsg-name nrt17vm-nsg -n kafka1 --priority 1030 --destination-port-range 34001
+az network nsg rule create --resource-group NRT17 --nsg-name nrt17vm-nsg -n kafka2 --priority 1040 --destination-port-range 34002
+az network nsg rule create --resource-group NRT17 --nsg-name nrt17vm-nsg -n kafka3 --priority 1050 --destination-port-range 34003
+
+az network nsg rule create --resource-group m_benjguinu --nsg-name benjguinu1605a -n zookeeper1 --priority 1020 --destination-port-range 34050
+az network nsg rule create --resource-group m_benjguinu --nsg-name benjguinu1605a -n kafka1 --priority 1030 --destination-port-range 34001
+az network nsg rule create --resource-group m_benjguinu --nsg-name benjguinu1605a -n kafka2 --priority 1040 --destination-port-range 34002
+az network nsg rule create --resource-group m_benjguinu --nsg-name benjguinu1605a -n kafka3 --priority 1050 --destination-port-range 34003
+```
+
+
 ## on my Windows laptop in Bash susbsystem
 
 My Azure Linux VM is u2.3-4.xyz
@@ -28,6 +53,8 @@ docker-compose up -d
 
 docker images | grep nrt17
 docker images | grep nrt17 | awk '{print $3}' | xargs --no-run-if-empty docker rmi
+
+./startdevjvm.sh $NRT17_HOME/containers/spark/master/code
 
 ```
 
@@ -58,6 +85,11 @@ export NRT17_DOCKER_REGISTRY=nrt17.azurecr.io
 export HOSTIP=`hostname -i`
 ```
 
+## on ks1 container
+
+```
+$KAFKA_HOME/bin/kafka-console-consumer.sh --zookeeper zk1:2181 --topic debugtopic --from-beginning
+```
 
 ## saved code
 

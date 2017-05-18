@@ -39,6 +39,8 @@ do
   fi
 done
 
+
+
 if [[ -n "$CUSTOM_INIT_SCRIPT" ]] ; then
   eval $CUSTOM_INIT_SCRIPT
 fi
@@ -57,6 +59,8 @@ term_handler() {
   exit
 }
 
+externalIpAddress=$(curl -s -H Metadata:true http://169.254.169.254/metadata/instance/network?format=json | jq -r .interface[0].ipv4.ipaddress[0].publicip)
+echo "advertised.listeners=PLAINTEXT://${externalIpAddress}:$KAFKA_ADVERTISED_PORT" >> $KAFKA_HOME/config/server.properties
 
 # Capture kill requests to stop properly
 trap "term_handler" SIGHUP SIGINT SIGTERM

@@ -4,10 +4,12 @@ services:
     image: nrt17.azurecr.io/nrt17/zookeeper:0.1
     container_name: zk1
     hostname: zk1
+    ports:
+      - "34050:2181"
     networks:
       - nrt17net
   kafka1:
-    image: nrt17.azurecr.io/nrt17/kafka:0.1
+    image: nrt17.azurecr.io/nrt17/kafka:0.2
     container_name: ks1
     hostname: ks1
     ports:
@@ -23,7 +25,7 @@ services:
     networks:
       - nrt17net
   kafka2:
-    image: nrt17.azurecr.io/nrt17/kafka:0.1
+    image: nrt17.azurecr.io/nrt17/kafka:0.2
     container_name: ks2
     hostname: ks2
     ports:
@@ -40,7 +42,7 @@ services:
     networks:
       - nrt17net
   kafka3:
-    image: nrt17.azurecr.io/nrt17/kafka:0.1
+    image: nrt17.azurecr.io/nrt17/kafka:0.2
     container_name: ks3
     hostname: ks3
     ports:
@@ -51,7 +53,7 @@ services:
       - kafka2
     environment:
       KAFKA_ADVERTISED_HOST_NAME: $HOSTIP
-      KAFKA_CREATE_TOPICS: "sampletopic:16:3"
+      KAFKA_CREATE_TOPICS: "inputtopic:16:3,outputtopic:16:3,debugtopic:16:3"
       KAFKA_ZOOKEEPER_CONNECT: zk1:2181
       KAFKA_BROKER_ID: 3      
     volumes:
