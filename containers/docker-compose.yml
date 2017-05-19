@@ -88,7 +88,7 @@ services:
     networks:
       - nrt17net
   sparkm1:
-    image: nrt17.azurecr.io/nrt17/sparkmaster:0.3
+    image: nrt17.azurecr.io/nrt17/sparkmaster:0.4
     container_name: sparkm1
     hostname: sparkm1
     command: spark-class org.apache.spark.deploy.master.Master -h sparkm1
@@ -113,7 +113,7 @@ services:
     networks:
       - nrt17net
   sparkw1:
-    image: nrt17.azurecr.io/nrt17/sparkworker:0.1
+    image: nrt17.azurecr.io/nrt17/sparkworker:0.4
     container_name: sparkw1
     hostname: sparkw1
     command: spark-class org.apache.spark.deploy.worker.Worker spark://sparkm1:7077
@@ -140,7 +140,7 @@ services:
     networks:
       - nrt17net
   sparkw2:
-    image: nrt17.azurecr.io/nrt17/sparkworker:0.1
+    image: nrt17.azurecr.io/nrt17/sparkworker:0.4
     container_name: sparkw2
     hostname: sparkw2
     command: spark-class org.apache.spark.deploy.worker.Worker spark://sparkm1:7077

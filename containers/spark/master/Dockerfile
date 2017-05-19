@@ -10,7 +10,7 @@ ENV SCALA_VERSION 2.11
 ENV BUILD_DIR /opt/buildapp
 ENV APP_DIR /opt/app
 
-WORKDIR {APP_DIR}
+WORKDIR ${APP_DIR}
 
 ADD code/project   ${BUILD_DIR}/project
 ADD code/src       ${BUILD_DIR}/src
